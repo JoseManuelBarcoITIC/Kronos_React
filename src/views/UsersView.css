@@ -1,0 +1,346 @@
+/* src/views/UsersView.css */
+
+/* --- Contenedor Principal y Animaciones --- */
+.users-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Cabecera de la Vista --- */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.users-subtitle {
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+
+.users-description {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0 0;
+}
+
+/* --- Botón Alta de Usuario --- */
+.btn-add-user {
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-add-user:hover {
+  background-color: #f59e0b;
+  color: #0f172a;
+}
+
+/* --- Rejilla y Tarjetas de Usuarios --- */
+.users-grid {
+  display: grid;
+  grid-template-cols: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .users-grid { grid-template-cols: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .users-grid { grid-template-cols: repeat(3, 1fr); }
+}
+
+.user-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-card:hover {
+  border-color: #f59e0b;
+}
+
+/* Info de Perfil (Avatar y Nombres) */
+.user-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background-color: #0f172a;
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+.user-name {
+  font-weight: 900;
+  color: #1e293b;
+  text-transform: uppercase;
+  font-style: italic;
+  margin: 0;
+  line-height: 1;
+}
+
+.user-role-tag {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Footer de la Tarjeta */
+.user-card-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-email-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 150px;
+}
+
+.user-email-text {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-card-actions {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.btn-card-actions:hover {
+  color: #0f172a;
+}
+
+/* Insignia "TÚ" */
+.self-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem 0.75rem;
+  background-color: #f59e0b;
+  color: #0f172a;
+  font-size: 0.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  border-bottom-left-radius: 0.75rem;
+}
+
+/* Estado de Rejilla Vacía */
+.empty-grid-state {
+  grid-column: 1 / -1;
+  padding: 5rem 0;
+  text-align: center;
+  border: 2px dashed #e2e8f0;
+  border-radius: 1.5rem;
+}
+
+.empty-grid-text {
+  color: #94a3b8;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* --- Ventana Modal de Alta --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+  animation: fadeInModal 0.2s ease-out forwards;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-window {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-w: 28rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-b: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.modal-title {
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  font-style: italic;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.modal-subtitle {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.btn-close-modal:hover {
+  color: #0f172a;
+}
+
+/* Formularios dentro del Modal */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-cols: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.form-input {
+  width: 100%;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1e293b;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+
+.form-error-msg {
+  color: #ef4444;
+  font-size: 0.625rem;
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+.btn-submit-form {
+  width: 100%;
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-submit-form:hover {
+  background-color: #f59e0b;
+  color: #0f172a;
+}

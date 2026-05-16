@@ -1,0 +1,90 @@
+/* PALETA KRONOS EXCAVACIONES */
+:root {
+  --pergamino: #F5F2ED;
+  --tierra: #4B3621;
+  --siena: #A0522D;
+  --oliva: #556B2F;
+  --oro: #D4AF37;
+}
+
+* { box-sizing: border-box; }
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--pergamino);
+  font-family: 'Courier New', Courier, monospace; /* Estilo máquina de escribir/ficha */
+}
+
+.app-viewport {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--pergamino);
+}
+
+.header-terminal {
+  height: 60px;
+  background-color: var(--tierra);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 4px solid var(--oro);
+  color: var(--pergamino);
+}
+
+.terminal-btn {
+  background: transparent;
+  border: 1px solid var(--oro);
+  color: var(--oro);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.system-status {
+  margin-left: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.online { color: var(--oro); font-weight: bold; }
+
+.content-area {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Loader Estilo Antiguo */
+.loading-overlay {
+  height: 100vh;
+  background: var(--pergamino);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--tierra);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--oro);
+  border-top: 4px solid var(--siena);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }

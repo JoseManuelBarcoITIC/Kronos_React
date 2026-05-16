@@ -1,0 +1,70 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-pergamino);
+}
+
+.login-card {
+    background-color: #FFFFFF;
+    padding: 40px;
+    border: 2px solid var(--color-tierra);
+    border-top: 8px solid var(--color-oro); /* Detalle de lujo */
+    box-shadow: 0 10px 25px rgba(75, 54, 33, 0.1);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.login-title {
+    color: var(--color-tierra);
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: var(--color-oliva);
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #D1D1D1;
+    background-color: #FCFAFA;
+    color: var(--color-tierra);
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    border-color: var(--color-siena);
+    outline: none;
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-siena);
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-button:hover {
+    background-color: var(--color-tierra);
+}
+
+.error-msg {
+    color: #b91c1c;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

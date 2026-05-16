@@ -1,0 +1,6 @@
+{
+  "name": "ArqueoGest - Gestión de Excavaciones",
+  "description": "Aplicación para la gestión de yacimientos arqueológicos, sectores y unidades estratigráficas (UE), con panel de administración para gestión de usuarios.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

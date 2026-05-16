@@ -1,0 +1,163 @@
+
+:root {
+  --kronos-pergamino: #F5F2ED;
+  --kronos-tierra: #4B3621;
+  --kronos-siena: #A0522D;
+  --kronos-oliva: #556B2F;
+  --kronos-oro: #D4AF37;
+}
+
+/* Contenedor principal de la barra lateral */
+.kronos-sidebar {
+  background-color: var(--kronos-tierra);
+  color: var(--kronos-pergamino);
+  height: 100vh;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  border-right: 4px solid var(--kronos-oro);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Cabecera / Botón de colapsar */
+.sidebar-header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* El logo cuadrado con la "K" */
+.sidebar-logo-box {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  background-color: var(--kronos-oro);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: var(--kronos-tierra);
+  transform: scale(1);
+  transition: transform 0.1s;
+}
+
+.sidebar-logo-box:active {
+  transform: scale(0.9);
+}
+
+.sidebar-title {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--kronos-oro);
+  font-size: 18px;
+}
+
+/* Área de Navegación */
+.sidebar-nav {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Botones de menú (NavItems) */
+.nav-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--kronos-pergamino);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item-btn:hover {
+  background-color: rgba(245, 242, 237, 0.1);
+}
+
+.nav-item-btn.active {
+  background-color: var(--kronos-pergamino);
+  color: var(--kronos-tierra);
+}
+
+.nav-item-icon {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item-btn.active .nav-item-icon {
+  color: var(--kronos-siena);
+}
+
+.nav-item-label {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  flex: 1;
+  text-align: left;
+}
+
+.nav-item-tag {
+  font-size: 8px;
+  background-color: var(--kronos-oro);
+  color: var(--kronos-tierra);
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+/* Pie de página (Footer) */
+.sidebar-footer {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(212, 175, 55, 0.27); /* #D4AF3744 */
+}
+
+.operator-section {
+  margin-bottom: 16px;
+}
+
+.operator-label {
+  font-size: 10px;
+  color: var(--kronos-oro);
+  font-weight: bold;
+  margin: 0;
+}
+
+.operator-name {
+  font-size: 12px;
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
+/* Botón Desconectar */
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: var(--kronos-pergamino);
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 8px 0;
+  width: 100%;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: left;
+  transition: opacity 0.2s;
+}
+
+.btn-logout:hover {
+  opacity: 1;
+}
