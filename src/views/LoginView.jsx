@@ -1,4 +1,3 @@
-// src/components/LoginView.jsx
 import React, { useState } from 'react';
 import { authService } from '../services/authService';
 import './LoginView.css';
@@ -9,16 +8,12 @@ export function LoginView({ onLoginSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false); // Reseteamos el error en cada intento de envío
+    setError(false); 
     
     try {
-      // 1. El servicio valida las credenciales y guarda 'kronos_token' y 'kronos_user' en localStorage
-      const data = await authService.login(creds.email, creds.password);
-      
-      // 🔄 IMPRESCINDIBLE: Pasamos TODO el objeto de datos a App.jsx
-      // Esto contiene { access, refresh, user }
+      const data = await authService.login(creds.email, creds.password);    
       onLoginSuccess(data); 
-      
+
     } catch (err) {
       console.error("Fallo al iniciar sesión en el panel de Kronos:", err);
       setError(true);
@@ -30,10 +25,8 @@ export function LoginView({ onLoginSuccess }) {
       <form onSubmit={handleSubmit} className="login-card">
         <div className="login-header">
           <h2 className="login-title">KRONOS</h2>
-          <div className="login-subtitle">Excavation Management System</div>
         </div>
 
-        {/* Mensaje de error condicional */}
         {error && <div className="error-msg">ERROR DE AUTENTICACIÓN</div>}
 
         <input 
