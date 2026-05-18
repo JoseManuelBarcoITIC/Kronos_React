@@ -12,6 +12,7 @@ export default function App() {
   const [view, setView] = useState('core');
   const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
 
+  // 1. 🔄 PASAMOS EL TOKEN AL HOOK para que reaccione al login
   const { 
     users, 
     excavations, 
@@ -23,7 +24,7 @@ export default function App() {
     addUser, 
     updateUser, 
     loading 
-  } = useKronosData();
+  } = useKronosData(token); 
 
   const isAdmin = currentUser?.is_staff === true || currentUser?.is_superuser === true;
 
@@ -32,10 +33,12 @@ export default function App() {
     setCurrentUser(loginData.user);
   };
 
+  // 2. 🔀 PRIORIDAD 1: Si no hay token, renderizar Login inmediatamente
   if (!token) {
     return <LoginView onLoginSuccess={handleLoginSuccess} />;
   }
 
+  // 3. ⏳ PRIORIDAD 2: Si ya hay token pero el hook está consultando a Django, mostrar loading
   if (loading) {
     return (
       <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', background: '#f4f1ea' }}>
@@ -44,6 +47,7 @@ export default function App() {
     );
   }
 
+  // 4. ✅ PRIORIDAD 3: Render de la aplicación con datos listos
   return (
     <div className="app-viewport">
       <Sidebar 
@@ -84,7 +88,7 @@ export default function App() {
               onUpdateUser={updateUser}
             />
           )}
-          
+  
         </div>
       </main>
     </div>
