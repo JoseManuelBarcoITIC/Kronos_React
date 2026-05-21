@@ -3,10 +3,6 @@ import { Database, Users, LogOut } from 'lucide-react';
 import './Sidebar.css';
 
 export function Sidebar({ isOpen, setIsOpen, view, setView, user, onLogout, isAdmin }) {
-
-  console.log("--- DEBUG SIDEBAR KRONOS ---");
-  console.log("¿Qué llega en la prop 'user'?:", user);
-  console.log("¿Qué llega en la prop 'isAdmin'?:", isAdmin);
   
   const colors = {
     pergamino: '#F5F2ED',

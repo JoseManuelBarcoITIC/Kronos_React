@@ -5,14 +5,16 @@ export function useKronosData() {
   const [excavations, setExcavations] = useState([]);
   const [sectors, setSectors] = useState([]); 
   const [users, setUsers] = useState([]); 
+  const [ues, setUes] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const BASE_URL = 'http://localhost:8000';
+  const BASE_URL = 'http://152.70.205.28:8000';
 
   const EXCAVATIONS_URL = `${BASE_URL}/excavations/`; 
   const SECTORS_URL = `${BASE_URL}/sectors/`; 
   const USERS_URL = `${BASE_URL}/users/userlist/`; 
+  const UES_URL = `${BASE_URL}/stratigraphic-units/`;
 
   const fetchData = async () => {
     setLoading(true);
@@ -23,10 +25,11 @@ export function useKronosData() {
         'Content-Type': 'application/json'
       };
 
-      const [resExc, resSec, resUsr] = await Promise.all([
+      const [resExc, resSec, resUsr, resUes] = await Promise.all([
         fetch(EXCAVATIONS_URL, { headers }),
         fetch(SECTORS_URL, { headers }), 
-        fetch(USERS_URL, { headers })
+        fetch(USERS_URL, { headers }),
+        fetch(UES_URL, { headers })
       ]);
 
       if (resExc.ok) {
@@ -42,6 +45,11 @@ export function useKronosData() {
       if (resUsr.ok) {
         const data = await resUsr.json();
         setUsers(data);
+      }
+
+      if (resUes.ok) {
+        const data = await resUes.json();
+        setUes(data);
       }
 
     } catch (err) {
@@ -63,7 +71,7 @@ export function useKronosData() {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, 
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(newExcData) 
       });
@@ -83,7 +91,6 @@ export function useKronosData() {
     }
   };
 
-  // 🔄 OPTIMIZADO: Retorno limpio de errores para Sectores
   const addSector = async (newSecData) => {
     const token = authService.getToken();
     try {
@@ -196,7 +203,6 @@ export function useKronosData() {
     }
   };
 
-  // 🔄 OPTIMIZADO: Retorno de errores controlado para actualización de Excavaciones
   const updateExcavation = async (id, updatedData) => {
     const token = authService.getToken();
     try {
@@ -223,18 +229,108 @@ export function useKronosData() {
       console.error("Error en la petición updateExcavation:", err);
       return { success: false, errors: { detail: err.message } };
     }
-  };  
+  };   
+
+  const addUe = async (newUeData) => {
+    const token = authService.getToken();
+    try {
+      const isFormData = newUeData instanceof FormData;
+      
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
+      }
+
+      const response = await fetch(UES_URL, {
+        method: 'POST',
+        headers: headers,
+        body: isFormData ? newUeData : JSON.stringify(newUeData)
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        console.error("Error de validación en Django al crear UE:", data);
+        return { success: false, errors: data };
+      }
+
+      setUes(prev => [...prev, data]);
+      return { success: true, data };
+
+    } catch (err) {
+      console.error("Fallo crítico de red en la petición addUe:", err);
+      return { success: false, errors: { detail: err.message } };
+    }
+  };
+
+  const updateUe = async (id, updatedUeData) => {
+    const token = authService.getToken();
+    console.log("=== INICIO DE EDICIÓN UE ===");
+    
+    try {
+      const isFormData = updatedUeData instanceof FormData;
+      let bodyPayload;
+
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      if (isFormData) {
+        if (updatedUeData.has('_method')) {
+          updatedUeData.delete('_method');
+        }
+        bodyPayload = updatedUeData;
+      } else {
+        headers['Content-Type'] = 'application/json';
+        bodyPayload = JSON.stringify(updatedUeData);
+      }
+      
+      const targetUrl = `${UES_URL}${id}/`;
+      console.log(`Enviando PATCH nativo a: ${targetUrl}`);
+
+      const response = await fetch(targetUrl, {
+        method: 'PATCH',
+        headers: headers,
+        body: bodyPayload
+      });
+
+      console.log("Estado de respuesta HTTP del servidor:", response.status);
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        console.error("❌ ERROR DETECTADO EN EL BACKEND (Django):", data);
+        return { success: false, errors: data };
+      }
+
+      console.log("✅ UE actualizada con éxito en Kronos. Respuesta:", data);
+      setUes(prev => prev.map(ue => ue.id === id ? data : ue));
+      return { success: true, data };
+
+    } catch (err) {
+      console.error("💥 FALLO CRÍTICO DE RED:", err);
+      return { success: false, errors: { detail: err.message } };
+    } finally {
+      console.log("=== FIN DE EDICIÓN UE ===");
+    }
+  };
 
   return { 
     excavations, 
     sectors, 
     users, 
+    ues, 
     addExcavation, 
     updateExcavation, 
     addSector, 
     updateSector,
     addUser, 
     updateUser, 
+    addUe, 
+    updateUe,
     loading, 
     error 
   };
