@@ -94,13 +94,18 @@ export function useKronosData() {
   const addSector = async (newSecData) => {
     const token = authService.getToken();
     try {
+      const payload = {
+        name: newSecData.name,
+        excavation: newSecData.excavation || newSecData.value
+      };
+
       const response = await fetch(SECTORS_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(newSecData)
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json().catch(() => ({}));
@@ -122,13 +127,18 @@ export function useKronosData() {
   const updateSector = async (id, updatedData) => {
     const token = authService.getToken();
     try {
+      const payload = {
+        name: updatedData.name,
+        excavation: updatedData.excavation || updatedData.value
+      };
+
       const response = await fetch(`${SECTORS_URL}${id}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json().catch(() => ({}));
@@ -268,17 +278,20 @@ export function useKronosData() {
 
   const updateUe = async (id, updatedUeData) => {
     const token = authService.getToken();
-    console.log("=== INICIO DE EDICIÓN UE ===");
     
     try {
       const isFormData = updatedUeData instanceof FormData;
       let bodyPayload;
+      let methodToUse = 'PATCH'; 
 
       const headers = {
         'Authorization': `Bearer ${token}`
       };
 
       if (isFormData) {
+        methodToUse = 'POST';
+        headers['X-HTTP-Method-Override'] = 'PATCH'; 
+        
         if (updatedUeData.has('_method')) {
           updatedUeData.delete('_method');
         }
@@ -289,32 +302,26 @@ export function useKronosData() {
       }
       
       const targetUrl = `${UES_URL}${id}/`;
-      console.log(`Enviando PATCH nativo a: ${targetUrl}`);
 
       const response = await fetch(targetUrl, {
-        method: 'PATCH',
+        method: methodToUse,
         headers: headers,
         body: bodyPayload
       });
 
-      console.log("Estado de respuesta HTTP del servidor:", response.status);
-
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        console.error("❌ ERROR DETECTADO EN EL BACKEND (Django):", data);
+        console.error("ERROR DETECTADO EN EL BACKEND (Django):", data);
         return { success: false, errors: data };
       }
 
-      console.log("✅ UE actualizada con éxito en Kronos. Respuesta:", data);
       setUes(prev => prev.map(ue => ue.id === id ? data : ue));
       return { success: true, data };
 
     } catch (err) {
       console.error("💥 FALLO CRÍTICO DE RED:", err);
       return { success: false, errors: { detail: err.message } };
-    } finally {
-      console.log("=== FIN DE EDICIÓN UE ===");
     }
   };
 
